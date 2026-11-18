@@ -81,4 +81,19 @@ Unless explicitly justified by the user's real product data, **never** pad immer
 
 - **The 100th-Repetition Test:** Every transition or hover effect must remain tolerable on the 100th visit—never block the user's next click or scroll.
 - **< 100ms Feedback & Stable Hit-Box:** Visual feedback on click/hover must start within `< 100ms` and never shrink or shift the element's clickable hit-area. Keep the hovered element stationary and animate a child surface (`.card:hover .card-surface { transform: translateY(-2px) }`) to prevent edge-hover flicker; apply `transition-delay` only on `:hover` so pointer exit is instant.
+- **Touch & Keyboard Hover Parity:** Wrap `:hover` rules in `@media (hover: hover)` so touch screens never get stuck hover states, and mirror every hover treatment on `:focus-visible` (plus a visible color/underline fallback under `prefers-reduced-motion`). Pick **one** micro-interaction treatment per UI role—shipping magnetic + letter-roll + pointer-fill + custom cursor all at once is visual clutter.
 - **Asymmetric Enter / Exit Curves:** Entering elements decelerate (`power3.out` / `cubic-bezier(0.05, 0.7, 0.1, 1)`), while exiting elements accelerate (`power2.in` / `cubic-bezier(0.3, 0, 0.8, 0.15)`) and exit faster than they enter.
+
+### CSS Letter Roll (Nav & CTA Labels)
+
+```css
+.roll { display: inline-grid; overflow: clip; }
+.roll > span { grid-area: 1 / 1; transition: translate 0.45s cubic-bezier(0.165, 0.84, 0.44, 1); }
+.roll > span + span { translate: 0 105%; }
+@media (hover: hover) {
+  .roll:hover > span { translate: 0 -105%; }
+  .roll:hover > span + span { translate: 0 0; }
+}
+.roll:focus-visible > span { translate: 0 -105%; }
+.roll:focus-visible > span + span { translate: 0 0; }
+```

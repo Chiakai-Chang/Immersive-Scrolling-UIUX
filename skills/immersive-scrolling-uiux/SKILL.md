@@ -28,8 +28,9 @@ Choose the lightest tool that satisfies the choreography (and if the project alr
 | Simple progress bar, card fade/scale on scroll | **CSS `animation-timeline: scroll()` / `view()`** | Zero JS, compositor-thread smooth, Baseline 2026 |
 | Pinned sections, scrubbed timelines, horizontal scroll | **GSAP + ScrollTrigger** | Deterministic pin-spacers, `scrub`, `containerAnimation` |
 | Smooth wheel inertia | **Lenis** (synced to `gsap.ticker`) | Decouples wheel smoothing without breaking `ScrollTrigger` |
-| Lightweight 3D objects, multi-camera views, HUDs (<32KB) | **2D Canvas Pseudo-3D (Sprite Stacking)** | Zero Three.js bundle cost; instant FCP, volumetric look |
-| Full PBR lighting, 3D `.glb` models, GLSL shaders | **Three.js** (driven by ScrollTrigger) | Full WebGL control; keep DOM as the scroll height driver |
+| Lightweight 3D objects, multi-camera views, HUDs (<32KB) | **2D Canvas Pseudo-3D (Sprite Stacking)** | Zero WebGL bundle cost; instant FCP, volumetric look |
+| Shader-only / 2D-plane WebGL effects (~30KB) | **OGL** (driven by ScrollTrigger) | Minimal WebGL footprint when 3D geometry isn't needed |
+| Full PBR lighting, 3D `.glb` models, camera paths | **Three.js / R3F** (driven by ScrollTrigger) | Full 3D WebGL control; keep DOM as the scroll height driver |
 | Pointer-following / magnetic elements | **`gsap.quickTo()`** | Reuses a single tween; never spawn new tweens per `mousemove` |
 
 ## Mandatory Workflow
@@ -74,8 +75,11 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true }); // Prevents iOS URL-bar jumps
 // NEVER enable ScrollTrigger.normalizeScroll(true) alongside Lenis — they fight over wheel/touch events.
 
-const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-lenis.on('scroll', ScrollTrigger.update);
+const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, anchors: true });
+lenis.on('scroll', (l) => {
+  // Note: Lenis reports progress = 1 on non-scrollable pages; guard with l.limit > 0
+  ScrollTrigger.update();
+});
 
 gsap.ticker.add((time) => {
   lenis.raf(time * 1000);
@@ -85,17 +89,6 @@ gsap.ticker.lagSmoothing(0);
 // Refresh triggers after web fonts & images settle
 document.fonts.ready.then(() => ScrollTrigger.refresh());
 window.addEventListener('load', () => ScrollTrigger.refresh());
-
-// Route anchor links through Lenis so smooth scroll doesn't fight native jumps
-document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  link.addEventListener('click', (e) => {
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target && lenis) {
-      e.preventDefault();
-      lenis.scrollTo(target);
-    }
-  });
-});
 ```
 
 ### Responsive & Reduced-Motion Gate (`gsap.matchMedia`)

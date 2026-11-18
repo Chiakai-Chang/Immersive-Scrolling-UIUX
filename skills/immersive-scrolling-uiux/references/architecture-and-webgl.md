@@ -108,3 +108,9 @@ velocity *= Math.pow(0.94, dtFactor);
 if (Math.abs(velocity) < 0.0001) velocity = 0;
 offset += velocity;
 ```
+
+---
+
+## 6. Parallel Page Transitions (Astro `ClientRouter` / MPA)
+
+Run the leave animation **in parallel** with fetching the next page (`await Promise.all([leave(), load()])`) so transitions add zero perceived network latency. In Astro `ClientRouter`, clean up ScrollTriggers on `astro:before-swap`, restore state flags on `astro:after-swap` before paint, and re-run `enter()` on `astro:page-load`.

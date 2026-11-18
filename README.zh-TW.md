@@ -114,6 +114,7 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 ### 研習與借鏡之開源專案
 - [greensock/gsap-skills](https://github.com/greensock/gsap-skills) — GreenSock 官方 AI Skills（Pin 外層與子元素分離、`clamp()`、`ScrollTrigger.batch()`、`refreshPriority` 與效能規範）
 - [pbakaus/impeccable](https://github.com/pbakaus/impeccable) — 子層 Hover 防閃爍機制（Stable Hit-Box）、依造訪模式調整動態節奏與預設可見降級規範
+- [juliobsz/skills](https://github.com/juliobsz/skills) — `awwwards` / `jury` 品質標準、OGL 輕量 WebGL、`@media (hover: hover)` 觸控防護、CSS Letter Roll 與並行頁面轉場架構
 - [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — 情緒曲線（Feeling Curve）、頁面語法禁止項（Forbids）、Hero 多平面景深與進出段 Scrub 驗證
 - [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — 反 AI 廉價感（Anti-AI-Slop）清單、尊重既有技術棧與互動論點規範
 - [saralobo/rules-design-bible](https://github.com/saralobo/rules-design-bible) — M3 非對稱進出緩動曲線、<100ms 反饋與第 100 次重複耐受度規範

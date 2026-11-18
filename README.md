@@ -114,6 +114,7 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 ### Open-Source Skills & Projects Studied
 - [greensock/gsap-skills](https://github.com/greensock/gsap-skills) — Official GSAP AI skills (pin-wrapper separation, `clamp()`, `ScrollTrigger.batch()`, `refreshPriority` & `gsap.quickTo()`)
 - [pbakaus/impeccable](https://github.com/pbakaus/impeccable) — Child-surface hover stability (no edge flicker), visitor-mode pacing & default-visible fallback discipline
+- [juliobsz/skills](https://github.com/juliobsz/skills) — `awwwards` / `jury` quality bar, OGL lightweight WebGL, `@media (hover: hover)` parity, CSS letter-roll & parallel page transitions
 - [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — Feeling Curve, Page Grammar *forbids*, dimensional hero planes & entry/exit scrub verification
 - [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — Anti-AI-Slop tells catalogue, existing-stack respect & interaction thesis discipline
 - [saralobo/rules-design-bible](https://github.com/saralobo/rules-design-bible) — M3 asymmetric enter/exit easing, <100ms feedback & 100th-repetition micro-interaction discipline
