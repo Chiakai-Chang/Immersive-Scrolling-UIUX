@@ -56,7 +56,7 @@ triggers:
     scrub: true
     props: "scale 1 -> 1.15, yPercent 0 -> 18"
   - target: ".hero-title .line"
-    onEnter: "stagger 0.08s, y 40 -> 0, opacity 0 -> 1, ease power3.out"
+    onEnter: "stagger 0.08s, yPercent 105 -> 0 (overflow: hidden mask, LCP-safe, no opacity: 0), ease power3.out"
 reduced_motion: "Static final frame; fade opacity 0 -> 1 over 0.3s only"
 mobile_fallback: "Disable parallax yPercent; keep entrance fade"
 ```

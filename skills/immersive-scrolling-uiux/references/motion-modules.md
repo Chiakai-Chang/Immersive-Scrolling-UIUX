@@ -195,7 +195,12 @@ track.addEventListener('focusin', (e) => {
   const st = horizontalTween.scrollTrigger;
   if (!card || !st) return;
   const progress = card.offsetLeft / Math.max(1, track.scrollWidth - window.innerWidth);
-  window.scrollTo({ top: st.start + progress * (st.end - st.start), behavior: 'auto' });
+  const targetY = st.start + progress * (st.end - st.start);
+  if (typeof lenis !== 'undefined' && lenis) {
+    lenis.scrollTo(targetY, { immediate: true });
+  } else {
+    window.scrollTo({ top: targetY, behavior: 'auto' });
+  }
 });
 ```
 
@@ -341,22 +346,30 @@ Use a `<canvas>` image sequence (rather than scrubbing `<video>.currentTime`, wh
 
 ```js
 const frameCount = 60;
-const images = Array.from({ length: frameCount }, (_, i) => {
+const images = new Array(frameCount);
+const loadFrame = (i) => {
   const img = new Image();
   img.src = `/frames/frame-${String(i + 1).padStart(3, '0')}.webp`;
+  images[i] = img;
   return img;
-});
+};
 
+// Paint poster frame first to protect LCP; load remaining frames after window load
 const state = { frame: 0 };
 const render = () => {
   const img = images[Math.round(state.frame)];
-  if (img?.complete && img.naturalWidth > 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  }
+  if (!img?.complete || img.naturalWidth === 0) return;
+  const scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
+  const w = img.naturalWidth * scale;
+  const h = img.naturalHeight * scale;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
 };
 
-images[0].onload = render; // Paint poster frame immediately
+loadFrame(0).onload = render;
+window.addEventListener('load', () => {
+  for (let i = 1; i < frameCount; i++) loadFrame(i);
+}, { once: true });
 
 gsap.to(state, {
   frame: frameCount - 1,
