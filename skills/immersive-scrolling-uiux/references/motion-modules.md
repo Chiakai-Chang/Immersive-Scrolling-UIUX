@@ -273,6 +273,59 @@ if (window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preferenc
 
 ---
 
+## M11: Pseudo-3D Sprite Stacking, Multi-Camera Rig & Diegetic HUD
+
+Inspired by ultra-lightweight (<32KB) 2D Canvas 3D experiences (e.g., *Fly*): render volumetric 3D objects, terrain depth, and seamless camera transitions (`Overview` ↔ `Chase` ↔ `Cockpit HUD`) without loading a 450KB+ WebGL engine.
+
+### 1. Sprite Stacking Core (Volumetric Slices on 2D Canvas)
+
+Pre-render or define horizontal slices bottom-to-top and draw them with a vertical offset proportional to camera pitch:
+
+```js
+function drawSpriteStack(ctx, slices, x, y, angle, pitchTilt = 1, sliceGap = 2.5, scale = 1) {
+  slices.forEach((sliceCanvas, i) => {
+    ctx.save();
+    // Offset upward along screen Y to create 3D extrusion
+    ctx.translate(x, y - i * sliceGap * pitchTilt * scale);
+    ctx.rotate(angle);
+    ctx.scale(scale, scale * pitchTilt);
+    ctx.drawImage(sliceCanvas, -sliceCanvas.width / 2, -sliceCanvas.height / 2);
+    ctx.restore();
+  });
+}
+```
+
+- **Depth & Shading:** Slightly darken lower slices (`i = 0..n/2`) during pre-bake for instant ambient occlusion.
+- **Painter's Sort:** Sort world objects by `cameraRelativeY` before drawing so distant islands/clouds render behind foreground objects.
+
+### 2. Multi-Camera Interpolation (Frame-Rate Independent Lerp)
+
+Switch smoothly between `topDown`, `chase`, and `hud` camera presets using exponential damping (immune to 60Hz vs 120Hz differences):
+
+```js
+const CAM_PRESETS = {
+  topDown: { pitchTilt: 0.95, sliceGap: 1.8, zoom: 0.85, hudOpacity: 0 },
+  chase:   { pitchTilt: 0.52, sliceGap: 3.2, zoom: 1.25, hudOpacity: 0.35 },
+  hud:     { pitchTilt: 0.28, sliceGap: 4.0, zoom: 1.75, hudOpacity: 1 },
+};
+
+const damp = (curr, target, lambda, dt) =>
+  curr + (target - curr) * (1 - Math.exp(-lambda * dt));
+
+// Inside gsap.ticker.add((time, deltaTime) => ...)
+const dt = Math.min(deltaTime / 1000, 0.05);
+cam.pitchTilt = damp(cam.pitchTilt, preset.pitchTilt, 6, dt);
+cam.zoom      = damp(cam.zoom,      preset.zoom,      6, dt);
+```
+
+### 3. Diegetic HUD & Performance Guardrails
+
+- **Diegetic Telemetry:** Map scroll progress or pointer velocity to crisp vector HUD elements (compass heading, depth/altitude scale, lock-on reticle) instead of generic floating cards.
+- **Offscreen Pre-baking:** Draw static pixel/vector slices onto `OffscreenCanvas` (or hidden `<canvas>`) once at startup; never allocate gradients or paths inside the per-frame loop.
+- **Reduced Motion:** Snap immediately to the target camera preset (`lambda = Infinity`) and render a clean static frame when `prefers-reduced-motion: reduce` is active.
+
+---
+
 ## Web Motion Playground Pattern
 
 When building a reusable playground for M01–M10:

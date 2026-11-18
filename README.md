@@ -52,7 +52,7 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 
 ---
 
-## The 10 Effect Modules (M01–M10)
+## The 11 Effect Modules (M01–M11)
 
 See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/immersive-scrolling-uiux/references/motion-modules.md) for production code patterns:
 
@@ -68,6 +68,7 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 | **M08** | Magnetic Cursor | `gsap.quickTo()` (`(pointer: fine)` only) |
 | **M09** | Particle / GLSL Shader BG | Three.js `ShaderMaterial` / `Points` + viewport culling |
 | **M10** | Morphing / Scene Bridge | SVG path / `clip-path` / CSS theme variable transitions |
+| **M11** | Pseudo-3D Sprite Stacking | 2D Canvas multi-slice + Top/Chase/HUD camera lerp |
 
 ---
 

@@ -28,7 +28,8 @@ Choose the lightest tool that satisfies the choreography:
 | Simple progress bar, card fade/scale on scroll | **CSS `animation-timeline: scroll()` / `view()`** | Zero JS, compositor-thread smooth, Baseline 2026 |
 | Pinned sections, scrubbed timelines, horizontal scroll | **GSAP + ScrollTrigger** | Deterministic pin-spacers, `scrub`, `containerAnimation` |
 | Smooth wheel inertia | **Lenis** (synced to `gsap.ticker`) | Decouples wheel smoothing without breaking `ScrollTrigger` |
-| 3D models, camera paths, particles, GLSL shaders | **Three.js** (driven by ScrollTrigger) | Full WebGL control; keep DOM as the scroll height driver |
+| Lightweight 3D objects, multi-camera views, HUDs (<32KB) | **2D Canvas Pseudo-3D (Sprite Stacking)** | Zero Three.js bundle cost; instant FCP, volumetric look |
+| Full PBR lighting, 3D `.glb` models, GLSL shaders | **Three.js** (driven by ScrollTrigger) | Full WebGL control; keep DOM as the scroll height driver |
 | Pointer-following / magnetic elements | **`gsap.quickTo()`** | Reuses a single tween; never spawn new tweens per `mousemove` |
 
 ## Mandatory Workflow
@@ -123,7 +124,7 @@ mm.add({
 });
 ```
 
-## The 10 Effect Modules (M01–M10)
+## The 11 Effect Modules (M01–M11)
 
 See [references/motion-modules.md](references/motion-modules.md) for production code recipes and tunable parameters for each module:
 
@@ -139,6 +140,7 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 | **M08** | Magnetic Cursor | `gsap.quickTo()` | Desktop pointer-fine only (`(pointer: fine)`) |
 | **M09** | Particle / Shader BG | Three.js + GLSL | Uniform `uProgress` / `uMouse` + viewport culling |
 | **M10** | Morphing Transition | SVG / `clip-path` / WebGL | Seamless scene-to-scene visual bridge |
+| **M11** | Pseudo-3D Sprite Stacking | 2D Canvas + Camera Lerp | Multi-slice volumetric objects + seamless Top/Chase/HUD views |
 
 ## Engineering & Accessibility Guardrails
 
