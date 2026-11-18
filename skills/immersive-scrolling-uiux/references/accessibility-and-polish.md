@@ -80,5 +80,5 @@ Unless explicitly justified by the user's real product data, **never** pad immer
 ## 6. Micro-Interaction & Easing Discipline
 
 - **The 100th-Repetition Test:** Every transition or hover effect must remain tolerable on the 100th visit—never block the user's next click or scroll.
-- **< 100ms Feedback & Stable Hit-Box:** Visual feedback on click/hover must start within `< 100ms` and never shrink or shift the element's clickable hit-area.
+- **< 100ms Feedback & Stable Hit-Box:** Visual feedback on click/hover must start within `< 100ms` and never shrink or shift the element's clickable hit-area. Keep the hovered element stationary and animate a child surface (`.card:hover .card-surface { transform: translateY(-2px) }`) to prevent edge-hover flicker; apply `transition-delay` only on `:hover` so pointer exit is instant.
 - **Asymmetric Enter / Exit Curves:** Entering elements decelerate (`power3.out` / `cubic-bezier(0.05, 0.7, 0.1, 1)`), while exiting elements accelerate (`power2.in` / `cubic-bezier(0.3, 0, 0.8, 0.15)`) and exit faster than they enter.
