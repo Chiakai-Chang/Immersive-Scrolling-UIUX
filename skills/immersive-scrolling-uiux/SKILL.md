@@ -122,6 +122,11 @@ mm.add({
   } else {
     // Mobile: prefer vertical flow or CSS scroll-snap; lighter 3D DPR (<= 1.5)
   }
+
+  // ALWAYS clean up native DOM listeners (mousemove, focusin) on breakpoint/toggle revert
+  const ac = new AbortController();
+  // target.addEventListener('mousemove', handler, { signal: ac.signal });
+  return () => ac.abort();
 });
 ```
 
@@ -152,10 +157,10 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 - **Viewport units:** Use `min-height: 100dvh` (or `svh`) instead of `100vh` to prevent mobile browser bar layout shifts.
 - **Horizontal overflow:** Use `overflow-x: clip` (not `overflow-x: hidden`, which breaks `position: sticky`).
 - **CSS Scroll-driven Gotcha:** Always declare `animation-timeline: view()` *after* the `animation` shorthand, and guard with `@supports (animation-timeline: scroll())`.
-- **Three.js Hygiene:**
-  - **Lazy-load WebGL:** Dynamically `import()` Three.js scenes only when `prefers-reduced-motion: no-preference` so reduced-motion users don't download ~450KB+ of unused 3D code.
+- **Three.js & Canvas Hygiene:**
+  - **Lazy-load WebGL:** Dynamically `import()` Three.js scenes only when `prefers-reduced-motion: no-preference` so reduced-motion users don't download ~450KB+ of unused 3D code. Wire ScrollTrigger camera tweens inside the `.then()` / `await` resolution (guarded against revert/unmount).
   - Cap pixel ratio: `renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))` (or `1.5` on mobile).
-  - **Viewport culling:** Skip `renderer.render(scene, camera)` when the canvas is off-screen (via `IntersectionObserver` or `ScrollTrigger` `onToggle`).
+  - **Viewport culling:** Skip both Three.js `renderer.render()` and 2D Canvas `ctx` draw calls when the canvas is off-screen (via `IntersectionObserver` or `ScrollTrigger` `onToggle`).
   - **Cleanup:** Dispose geometries, materials, textures, and renderer on unmount/scene swap.
 - **Breakpoint Parity:** Keep CSS `@media` breakpoints and `gsap.matchMedia()` conditions aligned to the exact pixel (e.g., CSS `max-width: 900px` ↔ JS `min-width: 901px`) so horizontal tracks never misalign.
 - **Runtime Reduced-Motion Toggle:** Support an in-page reduced-motion toggle alongside OS `prefers-reduced-motion: reduce`; on activation, call `lenis.destroy()`, `mm.revert()`, and `gsap.set(targets, { clearProps: 'all' })`.
