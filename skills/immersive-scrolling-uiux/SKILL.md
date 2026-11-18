@@ -130,9 +130,11 @@ mm.add({
 });
 ```
 
-## The 12 Effect Modules (M01–M12)
+## The 12 Effect Modules (M01–M12) & References
 
-See [references/motion-modules.md](references/motion-modules.md) for production code recipes and tunable parameters for each module:
+- **Effect Recipes (M01–M12 + Playground):** [references/motion-modules.md](references/motion-modules.md)
+- **React / R3F, Shader Warmup, Texture Atlas & Performance Tiering:** [references/architecture-and-webgl.md](references/architecture-and-webgl.md)
+- **Screen-Reader DOM Twin, Glass Overlays, View Transitions & Fallbacks:** [references/accessibility-and-polish.md](references/accessibility-and-polish.md)
 
 | ID | Module | Primary Tech | Key Technique |
 |---|---|---|---|

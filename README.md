@@ -13,9 +13,11 @@ An AI coding agent skill for building cinematic, scroll-driven web experiences w
 ├── README.md
 └── skills/
     └── immersive-scrolling-uiux/
-        ├── SKILL.md                      # Core workflow, Motion Spec, ticker & a11y guardrails
+        ├── SKILL.md                          # Core workflow, Motion Spec, ticker & guardrails
         └── references/
-            └── motion-modules.md         # Production recipes for M01–M12, R3F, Glass & Playground
+            ├── motion-modules.md             # M01–M12 production recipes + Playground pattern
+            ├── architecture-and-webgl.md     # React useGSAP, R3F bridge, Shader Warmup, Atlas & Tiering
+            └── accessibility-and-polish.md   # ScreenReaderOverlay, Glass, View Transitions & Fallbacks
 ```
 
 ---

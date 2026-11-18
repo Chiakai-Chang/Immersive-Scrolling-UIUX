@@ -1,4 +1,4 @@
-# Immersive Motion Modules (M01–M10)
+﻿# Immersive Motion Modules (M01?10)
 
 Production-ready patterns for the 10 core modules. Always wrap ScrollTrigger setups inside `gsap.matchMedia()` and honor `prefers-reduced-motion: reduce`.
 
@@ -35,7 +35,7 @@ gsap.to('.hero-bg', {
 
 ## M02: Parallax Image (Dual Option)
 
-**Option A — Pure CSS Scroll-Driven (Preferred when no pinning is needed):**
+**Option A ??Pure CSS Scroll-Driven (Preferred when no pinning is needed):**
 
 ```css
 @supports (animation-timeline: view()) {
@@ -53,7 +53,7 @@ gsap.to('.hero-bg', {
 }
 ```
 
-**Option B — GSAP `data-speed` layers:**
+**Option B ??GSAP `data-speed` layers:**
 
 ```js
 gsap.utils.toArray('[data-speed]').forEach((el) => {
@@ -242,7 +242,7 @@ camTl
 Always provide a `disposeScene()` helper calling `geometry.dispose()`, `material.dispose()`, and `renderer.dispose()`.
 
 - **Zero-Stutter Shader Warmup:** Run `await renderer.compileAsync?.(scene, camera)` during preloader/idle (skip on low-tier mobile to avoid `webglcontextlost`).
-- **Texture Atlas (30 Images -> 1 Draw Call):** Draw gallery images onto one `OffscreenCanvas` grid (`cols × rows`, `2px` padding) and upload a single `new THREE.CanvasTexture(canvas)` instead of binding dozens of textures.
+- **Texture Atlas (30 Images -> 1 Draw Call):** Draw gallery images onto one `OffscreenCanvas` grid (`cols ? rows`, `2px` padding) and upload a single `new THREE.CanvasTexture(canvas)` instead of binding dozens of textures.
 - **Screen-Reader Twin:** Pair full-screen 3D/Canvas worlds with a `.sr-only` `<nav>` + `<div aria-live="polite">` announcing chapter/room transitions.
 
 ---
@@ -279,7 +279,7 @@ if (window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preferenc
 
 ## M09: Particle / GLSL Shader Background
 
-- Keep particle count reasonable (`1500–4000` points with `BufferGeometry` + `PointsMaterial` or custom `ShaderMaterial`).
+- Keep particle count reasonable (`1500??000` points with `BufferGeometry` + `PointsMaterial` or custom `ShaderMaterial`).
 - Pass `uScroll` (0..1 from ScrollTrigger `onUpdate: (self) => uniforms.uScroll.value = self.progress`) and smoothed `uMouse` (`gsap.quickTo` on a uniform vector).
 - Pause `uTime` updates and `renderer.render()` when off-screen or when `prefers-reduced-motion: reduce`.
 
@@ -294,7 +294,7 @@ if (window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preferenc
 
 ## M11: Pseudo-3D Sprite Stacking, Multi-Camera Rig & Diegetic HUD
 
-Inspired by ultra-lightweight (<32KB) 2D Canvas 3D experiences (e.g., *Fly*): render volumetric 3D objects, terrain depth, and seamless camera transitions (`Overview` ↔ `Chase` ↔ `Cockpit HUD`) without loading a 450KB+ WebGL engine.
+Inspired by ultra-lightweight (<32KB) 2D Canvas 3D experiences (e.g., *Fly*): render volumetric 3D objects, terrain depth, and seamless camera transitions (`Overview` ??`Chase` ??`Cockpit HUD`) without loading a 450KB+ WebGL engine.
 
 ### 1. Sprite Stacking Core (Volumetric Slices on 2D Canvas)
 
@@ -392,143 +392,8 @@ gsap.to(state, {
 
 ## Web Motion Playground Pattern
 
-When building a reusable playground for M01–M12:
+When building a reusable playground for M01?12:
 1. Store each module as a self-contained descriptor: `{ id, title, category, paramsSchema, setup(container, params), codeSnippet }`.
 2. Render a live preview stage + parameter sliders (`scrub`, `duration`, `ease`, `intensity`) that re-run `ctx.revert()` (`gsap.context()`) and re-initialize `setup()` cleanly on change.
 3. Include a **Reduced Motion Toggle** and **ScrollTrigger Markers Toggle** directly in the playground toolbar for instant verification.
 
----
-
-## React / Next.js (`useGSAP`) Lifecycle Pattern
-
-In React 18/19 StrictMode or SPA route transitions, always use `@gsap/react`'s `useGSAP()` (or `gsap.context()`) so ScrollTriggers revert cleanly on unmount:
-
-```tsx
-import { useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-export function StorySection() {
-  const scopeRef = useRef(null);
-
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-      gsap.to('.panel', {
-        yPercent: -15,
-        scrollTrigger: { trigger: '.panel', scrub: true },
-      });
-    });
-  }, { scope: scopeRef });
-
-  return <section ref={scopeRef}>{/* ... */}</section>;
-}
-```
-
-### React Three Fiber (`@react-three/fiber`) + GSAP Bridge
-
-In R3F, `<Canvas>` owns the WebGL render loop—never call `renderer.render()` inside `gsap.ticker`. Instead, mutate a shared ref/store from `ScrollTrigger` and read it in `useFrame()`:
-
-```tsx
-const scrollProgress = useRef(0);
-
-useGSAP(() => {
-  ScrollTrigger.create({
-    trigger: '.r3f-story',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: true,
-    onUpdate: (self) => { scrollProgress.current = self.progress; },
-  });
-});
-
-// Inside <Canvas> child component:
-useFrame(({ camera }) => {
-  camera.position.z = THREE.MathUtils.lerp(6, 2.5, scrollProgress.current);
-});
-```
-
-- **Asset & Dev Hygiene:** Convert M12 frame sequences and textures to **WebP/AVIF** (e.g., via `sharp`) to protect LCP; strip debug tools (`leva`, `r3f-perf`) in production builds.
-
----
-
-## Glass Overlay, View Transitions & State Completeness
-
-### 1. Frosted / Liquid Glass over Dynamic Backdrops
-
-```css
-.glass-panel {
-  background: rgba(18, 22, 30, 0.62);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .glass-panel {
-    background: #12161e;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-}
-```
-
-### 2. View Transitions API (Seamless State / Filter Morph)
-
-```js
-function transitionState(updateDom) {
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!document.startViewTransition || reduced) {
-    updateDom();
-    return;
-  }
-  document.startViewTransition(updateDom);
-}
-```
-
-### 3. Loading / Error Fallback for 3D & Frame Sequences
-
-Always render a visible `[data-stage-status="loading"]` poster/skeleton until assets decode, and switch to `[data-stage-status="fallback"]` (static hero image) on WebGL context loss or asset load error. If using a progress bar, animate `transform: scaleX()` (never `width`) and never block the Hero `<h1>` LCP behind artificial `setTimeout` delays.
-
----
-
-## Adaptive Performance Tiering & Velocity Physics
-
-### 1. Hardware Performance Tiering (`HIGH / MEDIUM / LOW`)
-
-```js
-export function detectPerformanceTier() {
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  const cores = navigator.hardwareConcurrency || 8;
-  const ram = navigator.deviceMemory || 8;
-
-  if (ram <= 4 || (isMobile && cores <= 4)) {
-    return { tier: 'LOW', dpr: 1, shadows: false, antialias: false, particleScale: 0.3 };
-  }
-  if (isMobile || cores <= 4) {
-    return { tier: 'MEDIUM', dpr: 1.5, shadows: false, antialias: true, particleScale: 0.6 };
-  }
-  return { tier: 'HIGH', dpr: 2, shadows: true, antialias: true, particleScale: 1.0 };
-}
-```
-
-### 2. Velocity-Driven Infinite Scroll (for Looping 3D Galleries)
-
-When building an infinite 3D gallery (no document scrollbar), accumulate input impulses with exponential friction and expose `velocity` for subtle skew/tilt reactivity:
-
-```js
-let offset = 0, velocity = 0, pending = 0;
-window.addEventListener('wheel', (e) => { pending += e.deltaY * 0.01; }, { passive: true });
-
-// Inside gsap.ticker.add((_, deltaTime) => ...):
-const dtFactor = Math.min((deltaTime || 16) / 16.67, 2);
-velocity += pending;
-pending = 0;
-velocity *= Math.pow(0.94, dtFactor);
-if (Math.abs(velocity) < 0.0001) velocity = 0;
-offset += velocity;
-```
