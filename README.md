@@ -15,7 +15,7 @@ An AI coding agent skill for building cinematic, scroll-driven web experiences w
     └── immersive-scrolling-uiux/
         ├── SKILL.md                      # Core workflow, Motion Spec, ticker & a11y guardrails
         └── references/
-            └── motion-modules.md         # Production recipes for M01–M10 + Playground pattern
+            └── motion-modules.md         # Production recipes for M01–M12, R3F, Glass & Playground
 ```
 
 ---
@@ -40,15 +40,14 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 
 ## What This Skill Enforces
 
-1. **Motion Specification Before Code** — Agents write a per-section YAML spec (`start`/`end`, `scrub`, `pin`, `reduced_motion`, `mobile_fallback`) before implementing.
-2. **Section-by-Section Browser Verification** — Never dump an entire multi-section site unverified; validate markers, 60fps compositor performance, mobile layout, and `prefers-reduced-motion` per section.
-3. **Single Unified Render Loop** — Lenis and Three.js are driven through `gsap.ticker` with `gsap.ticker.lagSmoothing(0)`, `ScrollTrigger.config({ ignoreMobileResize: true })`, `document.fonts.ready` refresh, and Lenis anchor-link routing.
+1. **Anti-Template Design Brief & Motion Spec** — Agents lock a distinct Page Grammar, 1 bespoke signature mechanic, and a per-section YAML Motion Spec before coding.
+2. **Section-by-Section Browser Verification** — Validate `ScrollTrigger` markers, zero Dead Scroll / Ghost Copy, dynamic contrast (`>= 4.5:1`), 60fps compositor performance, mobile layout, keyboard `Tab` focus, and `prefers-reduced-motion` per section.
+3. **Single Unified Render Loop** — Lenis and Vanilla Three.js/2D Canvas are driven through `gsap.ticker` (`lagSmoothing(0)`), with `ScrollTrigger.config({ ignoreMobileResize: true })`, `document.fonts.ready` refresh, Lenis anchor routing, and R3F `useFrame` bridge support.
 4. **Engineering & Accessibility Guardrails**:
-   - Compositor-only animations (`transform`, `opacity`, `clip-path`, `filter`)
-   - `min-height: 100dvh` & `overflow-x: clip` (preserving `position: sticky` / `pin`)
-   - Exact **Breakpoint Parity** between CSS `@media` and `gsap.matchMedia()`
-   - Accessible split text (`aria-label` on parent, `aria-hidden="true"` on child spans)
-   - Runtime reduced-motion toggle support + Three.js lazy-loading, DPR cap, `IntersectionObserver` viewport culling, and `dispose()` cleanup
+   - Compositor-only animations, LCP-safe Hero (no initial `opacity: 0` on `<h1>`), `min-height: 100dvh`, and `overflow-x: clip`
+   - `gsap.matchMedia()` with `AbortController` listener cleanup, exact CSS/JS **Breakpoint Parity**, and React `useGSAP()` lifecycle patterns
+   - WCAG 2.2 `focusin` scroll alignment for horizontal sections and accessible split text (`aria-label` + `aria-hidden`)
+   - Runtime reduced-motion toggle, `prefers-reduced-transparency` glass fallback, Three.js lazy-loading, DPR cap, viewport culling, and `dispose()` cleanup
 
 ---
 
