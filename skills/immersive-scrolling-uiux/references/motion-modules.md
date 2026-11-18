@@ -409,6 +409,31 @@ export function StorySection() {
 }
 ```
 
+### React Three Fiber (`@react-three/fiber`) + GSAP Bridge
+
+In R3F, `<Canvas>` owns the WebGL render loop—never call `renderer.render()` inside `gsap.ticker`. Instead, mutate a shared ref/store from `ScrollTrigger` and read it in `useFrame()`:
+
+```tsx
+const scrollProgress = useRef(0);
+
+useGSAP(() => {
+  ScrollTrigger.create({
+    trigger: '.r3f-story',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: true,
+    onUpdate: (self) => { scrollProgress.current = self.progress; },
+  });
+});
+
+// Inside <Canvas> child component:
+useFrame(({ camera }) => {
+  camera.position.z = THREE.MathUtils.lerp(6, 2.5, scrollProgress.current);
+});
+```
+
+- **Asset & Dev Hygiene:** Convert M12 frame sequences and textures to **WebP/AVIF** (e.g., via `sharp`) to protect LCP; strip debug tools (`leva`, `r3f-perf`) in production builds.
+
 ---
 
 ## Glass Overlay, View Transitions & State Completeness
