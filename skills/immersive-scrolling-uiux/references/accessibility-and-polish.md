@@ -53,7 +53,7 @@ Cap stacked `backdrop-filter` blur layers at 3, verify `>= 4.5:1` contrast again
 
 ---
 
-## 3. View Transitions API (Seamless State / Filter Morph)
+## 3. View Transitions API & `@starting-style`
 
 ```js
 export function transitionState(updateDom) {
@@ -65,6 +65,8 @@ export function transitionState(updateDom) {
   document.startViewTransition(updateDom);
 }
 ```
+
+- **Browser Compat Gotchas:** Same-document `startViewTransition` is Baseline, but cross-document `@view-transition { navigation: auto }` is still a no-op in Firefox (and auto-naming uses `view-transition-name: match-element`, not `auto`). With `@starting-style` + `transition-behavior: allow-discrete`, Firefox plays the enter animation and skips the `display: none` exit—never depend on exit completion callbacks.
 
 ---
 
