@@ -112,7 +112,8 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 - [Codrops](https://tympanus.net/codrops/)
 
 ### 研習與借鏡之開源專案
-- [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — 反樣板防撞版機制與 Dead Scroll / 動態對比自檢思維
+- [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — 情緒曲線（Feeling Curve）、頁面語法禁止項（Forbids）、Hero 多平面景深與進出段 Scrub 驗證
+- [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — 反 AI 廉價感（Anti-AI-Slop）清單、尊重既有技術棧與互動論點規範
 - [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — 毛玻璃動態背景疊加規範、完整互動狀態與節制的設計細節（Design Spells）
 - [zlbigger/immersive-poetry-page](https://github.com/zlbigger/immersive-poetry-page) — 情緒節拍分段（Beat-Based Narrative Arc）與單一視覺聖經一致性
 - [cortiz2894/showcase-images](https://github.com/cortiz2894/showcase-images) — `OffscreenCanvas` 紋理圖集打包與物理慣性虛擬捲動

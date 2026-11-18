@@ -65,3 +65,12 @@ export function transitionState(updateDom) {
 
 - **Non-Blocking Preloader:** Animate progress via `transform: scaleX()` (never `width`), and never block the above-the-fold Hero `<h1>` LCP behind artificial `setTimeout` delays.
 - **3D / Sequence Status:** Render a visible `[data-stage-status="loading"]` poster/skeleton until assets decode, and switch to `[data-stage-status="fallback"]` (static hero image) on `webglcontextlost` or asset load failure.
+
+---
+
+## 5. Anti-AI-Slop Tells (Never Invent Atmosphere)
+
+Unless explicitly justified by the user's real product data, **never** pad immersive pages with generic LLM "studio/engineering" tropes:
+- **Fake telemetry / heritage:** No invented `v0.6.2-rc.1`, `last sync 4s ago`, `LIS 14:23 · 18°C`, `ESTD. 2018`, `SEC-01`, `99.99% uptime`, or `Only 3 left` counters.
+- **Decorative numbering:** Avoid `00 / INDEX` or `01 / 04` counters on static grids where items don't actually paginate.
+- **Fake product boxes:** Don't draw a generic mock terminal/dashboard out of styled `<div>`s when real screenshots, components, or copy exist.

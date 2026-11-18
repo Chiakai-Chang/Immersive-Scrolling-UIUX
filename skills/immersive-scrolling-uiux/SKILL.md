@@ -21,7 +21,7 @@ Cinematic web experiences are not isolated animations—they are **choreographed
 
 ## Technology Decision Matrix
 
-Choose the lightest tool that satisfies the choreography:
+Choose the lightest tool that satisfies the choreography (and if the project already uses GSAP, Motion/Framer Motion, or R3F, respect the existing stack before proposing new dependencies):
 
 | Effect Requirement | Use | Why |
 |---|---|---|
@@ -36,7 +36,7 @@ Choose the lightest tool that satisfies the choreography:
 
 Do **not** generate an entire multi-section site in one shot. Follow this 5-step loop:
 
-1. **Design Brief (Anti-Template Gate):** Lock theme, palette, typography, a **Feeling Curve** (one emotion per section—**never repeat the same emotion or motion device twice in a row**), a **Page Grammar** with explicit *forbids* (so the layout doesn't drift back to a generic template), **1 bespoke signature mechanic**, and **dimensional hero planes** (independent foreground/subject/background separation). Use real copy or explicit `[Placeholder]` markers—never invent fake stats or lorem ipsum.
+1. **Design Brief (Anti-Template Gate):** Lock theme, palette, typography, a **Feeling Curve** (one emotion per section—**never repeat the same emotion or motion device twice in a row**), a **Page Grammar** with explicit *forbids* (so the layout doesn't drift back to a generic template), **1 bespoke signature mechanic**, and **dimensional hero planes** (independent foreground/subject/background separation). Use real copy or explicit `[Placeholder]` markers—never invent fake stats, heritage badges, or decorative AI-slop tells (see [references/accessibility-and-polish.md](references/accessibility-and-polish.md)).
 2. **Motion Specification:** For each section, write a compact spec (see template below) BEFORE coding.
 3. **Section-by-Section Implementation:** Build HTML + CSS layout first, then wire motion for **one section at a time**.
 4. **Browser Validation:** Inspect `ScrollTrigger` markers, 60fps compositor performance, mobile touch behavior, and `prefers-reduced-motion` after each section.

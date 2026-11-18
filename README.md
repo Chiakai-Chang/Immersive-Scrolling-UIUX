@@ -112,7 +112,8 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 - [Codrops](https://tympanus.net/codrops/)
 
 ### Open-Source Skills & Projects Studied
-- [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — Anti-template fingerprint gating & dead-scroll/contrast verification checks
+- [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — Feeling Curve, Page Grammar *forbids*, dimensional hero planes & entry/exit scrub verification
+- [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — Anti-AI-Slop tells catalogue, existing-stack respect & interaction thesis discipline
 - [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — Glass overlay hygiene, complete interactive states & restrained design-spell discipline
 - [zlbigger/immersive-poetry-page](https://github.com/zlbigger/immersive-poetry-page) — Beat-based narrative arc & single visual bible consistency
 - [cortiz2894/showcase-images](https://github.com/cortiz2894/showcase-images) — `OffscreenCanvas` Texture Atlas packing & physics-based virtual scroll
