@@ -341,7 +341,8 @@ cam.zoom      = damp(cam.zoom,      preset.zoom,      6, dt);
 
 - **HiDPI Crispness:** Size the canvas backing store by `dpr = Math.min(window.devicePixelRatio, 2)` and call `ctx.setTransform(dpr, 0, 0, dpr, 0, 0)` on resize so pixel/vector HUD lines stay razor-sharp on Retina screens.
 - **Diegetic Telemetry:** Map scroll progress or pointer velocity to crisp vector HUD elements (compass heading, depth/altitude scale, lock-on reticle) instead of generic floating cards.
-- **Offscreen Pre-baking:** Draw static pixel/vector slices onto `OffscreenCanvas` (or hidden `<canvas>`) once at startup; never allocate gradients or paths inside the per-frame loop.
+- **Offscreen Pre-baking:** Draw static pixel/vector slices onto `OffscreenCanvas` (or hidden `<canvas>`) once at startup; never allocate gradients/paths or call `ctx.filter` (catastrophically slow on Safari) inside the per-frame loop.
+- **Deterministic Seeded PRNG & Seamless Loops:** Use a seeded PRNG (e.g., `mulberry32`) instead of `Math.random()` for procedural particles/slices so visual diffs are reproducible, and drive ambient idle loops via `Math.sin((t % period) / period * Math.PI * 2)` so frame `0` and the last frame meet seamlessly.
 - **Reduced Motion:** Snap immediately to the target camera preset (`lambda = Infinity`) and render a clean static frame when `prefers-reduced-motion: reduce` is active.
 
 ---

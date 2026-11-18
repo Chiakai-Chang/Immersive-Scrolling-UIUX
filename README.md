@@ -120,6 +120,7 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 - [saralobo/rules-design-bible](https://github.com/saralobo/rules-design-bible) — M3 asymmetric enter/exit easing, <100ms feedback & 100th-repetition micro-interaction discipline
 - [rastian/interaction-design-skills](https://github.com/rastian/interaction-design-skills) — Nielsen response-time loading thresholds (`100ms / 1s / 10s`) & IxD affordance/feedback principles
 - [arhamhi/oxfords](https://github.com/arhamhi/oxfords) — `prefers-contrast: more` triad, interruptible return-origin motion & monospace restraint
+- [alexgreensh/anidoodle](https://github.com/alexgreensh/anidoodle) — Deterministic seeded PRNG, `ctx.filter` ban in per-frame 2D Canvas & seamless periodic loops
 - [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — Glass overlay hygiene, complete interactive states & restrained design-spell discipline
 - [zlbigger/immersive-poetry-page](https://github.com/zlbigger/immersive-poetry-page) — Beat-based narrative arc & single visual bible consistency
 - [cortiz2894/showcase-images](https://github.com/cortiz2894/showcase-images) — `OffscreenCanvas` Texture Atlas packing & physics-based virtual scroll
