@@ -36,7 +36,7 @@ Choose the lightest tool that satisfies the choreography:
 
 Do **not** generate an entire multi-section site in one shot. Follow this 5-step loop:
 
-1. **Design Brief (Anti-Template Gate):** Lock theme, emotional tone, typography, palette, a distinct **Page Grammar** (avoid generic alternating left-right blocks), and **1 bespoke signature mechanic** tailored to the domain.
+1. **Design Brief (Anti-Template Gate):** Lock theme, emotional tone, typography, palette, a distinct **Page Grammar** (avoid generic alternating left-right blocks), and **1 bespoke signature mechanic** tailored to the domain. Use real copy or explicit `[Placeholder]` markers—never invent fake stats or lorem ipsum.
 2. **Motion Specification:** For each section, write a compact spec (see template below) BEFORE coding.
 3. **Section-by-Section Implementation:** Build HTML + CSS layout first, then wire motion for **one section at a time**.
 4. **Browser Validation:** Inspect `ScrollTrigger` markers, 60fps compositor performance, mobile touch behavior, and `prefers-reduced-motion` after each section.
@@ -164,6 +164,9 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
   - **Viewport culling:** Skip both Three.js `renderer.render()` and 2D Canvas `ctx` draw calls when the canvas is off-screen (via `IntersectionObserver` or `ScrollTrigger` `onToggle`).
   - **Cleanup:** Dispose geometries, materials, textures, and renderer on unmount/scene swap.
 - **Breakpoint Parity:** Keep CSS `@media` breakpoints and `gsap.matchMedia()` conditions aligned to the exact pixel (e.g., CSS `max-width: 900px` ↔ JS `min-width: 901px`) so horizontal tracks never misalign.
+- **Glass / Overlay Hygiene:** When placing frosted/glass cards over moving WebGL, video, or scrubbed backdrops, cap stacked `backdrop-filter` blur layers at 3, keep worst-case text contrast `>= 4.5:1`, and honour `prefers-reduced-transparency`.
+- **Complete Interactive States:** Explicitly define `hover`, `focus-visible`, `loading` (poster/skeleton while 3D or frame sequences decode), and `error`/fallback states—never ship only the happy path.
+- **Restrained "Design Spells":** Keep celebratory micro-interactions optional, throttled, and dismissible; delight is seasoning, never a blocker to the core scroll/reading flow.
 - **Runtime Reduced-Motion Toggle:** Support an in-page reduced-motion toggle alongside OS `prefers-reduced-motion: reduce`; on activation, call `lenis.destroy()`, `mm.revert()`, and `gsap.set(targets, { clearProps: 'all' })`.
 - **Accessible Split Text:** Never split text into `<span>`s without `aria-label` on the parent and `aria-hidden="true"` on the child spans, or screen readers will spell out individual characters.
 
