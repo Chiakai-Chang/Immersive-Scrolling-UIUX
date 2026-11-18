@@ -1,6 +1,8 @@
 # Immersive Scrolling UI/UX Skill
 
-An AI coding agent skill for building cinematic, scroll-driven web experiences with **GSAP ScrollTrigger**, **Lenis**, **Three.js / WebGL**, and **CSS Scroll-driven Animations** (`animation-timeline`).
+[English](README.md) | [繁體中文（臺灣）](README.zh-TW.md)
+
+An AI coding agent skill for building cinematic, scroll-driven web experiences with **GSAP ScrollTrigger**, **Lenis**, **Three.js / React Three Fiber**, **2D Canvas Pseudo-3D**, and **CSS Scroll-driven Animations** (`animation-timeline`).
 
 > **Core Principle:** High-end immersive websites are not isolated animations—they are **choreographed timelines** where background scale, foreground parallax, mask reveals, typography, and 3D camera motion share a unified rhythm.
 
@@ -11,6 +13,7 @@ An AI coding agent skill for building cinematic, scroll-driven web experiences w
 ```text
 .
 ├── README.md
+├── README.zh-TW.md
 └── skills/
     └── immersive-scrolling-uiux/
         ├── SKILL.md                          # Core workflow, Motion Spec, ticker & guardrails
@@ -24,16 +27,41 @@ An AI coding agent skill for building cinematic, scroll-driven web experiences w
 
 ## Installation
 
-Copy `skills/immersive-scrolling-uiux` into your cross-runtime agent skills directory (`~/.agents/skills/`, recognized by Gemini CLI, Claude Code, Codex, and Copilot CLI):
+### For AI Coding Agents (Self-Install Instructions)
 
-### macOS / Linux
+If you are an AI coding agent (Gemini CLI, Claude Code, Codex, Copilot CLI, or Cursor) asked to install this skill from `https://github.com/Chiakai-Chang/Immersive-Scrolling-UIUX`, copy `skills/immersive-scrolling-uiux` into the user's cross-runtime skills directory (`~/.agents/skills/immersive-scrolling-uiux`) and verify `SKILL.md` exists:
+
 ```bash
+# macOS / Linux
+git clone --depth 1 https://github.com/Chiakai-Chang/Immersive-Scrolling-UIUX.git /tmp/immersive-scrolling-uiux && \
+mkdir -p ~/.agents/skills && \
+rm -rf ~/.agents/skills/immersive-scrolling-uiux && \
+cp -r /tmp/immersive-scrolling-uiux/skills/immersive-scrolling-uiux ~/.agents/skills/ && \
+rm -rf /tmp/immersive-scrolling-uiux && \
+ls -la ~/.agents/skills/immersive-scrolling-uiux/SKILL.md
+```
+
+```powershell
+# Windows (PowerShell)
+$tmp = Join-Path $env:TEMP "immersive-scrolling-uiux"
+if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp }
+git clone --depth 1 https://github.com/Chiakai-Chang/Immersive-Scrolling-UIUX.git $tmp
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.agents\skills" | Out-Null
+Copy-Item -Recurse -Force "$tmp\skills\immersive-scrolling-uiux" "$env:USERPROFILE\.agents\skills\"
+Remove-Item -Recurse -Force $tmp
+Test-Path "$env:USERPROFILE\.agents\skills\immersive-scrolling-uiux\SKILL.md"
+```
+
+### Manual Installation (From Local Clone)
+
+```bash
+# macOS / Linux
 mkdir -p ~/.agents/skills
 cp -r skills/immersive-scrolling-uiux ~/.agents/skills/
 ```
 
-### Windows (PowerShell)
 ```powershell
+# Windows (PowerShell)
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.agents\skills" | Out-Null
 Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.agents\skills\"
 ```
@@ -42,14 +70,14 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 
 ## What This Skill Enforces
 
-1. **Anti-Template Design Brief & Motion Spec** — Agents lock a distinct Page Grammar, 1 bespoke signature mechanic, and a per-section YAML Motion Spec before coding.
+1. **Anti-Template Design Brief & Motion Spec** — Agents lock a distinct Page Grammar, 1 bespoke signature mechanic, a Beat-Based Narrative Arc, and a per-section YAML Motion Spec before coding.
 2. **Section-by-Section Browser Verification** — Validate `ScrollTrigger` markers, zero Dead Scroll / Ghost Copy, dynamic contrast (`>= 4.5:1`), 60fps compositor performance, mobile layout, keyboard `Tab` focus, and `prefers-reduced-motion` per section.
 3. **Single Unified Render Loop** — Lenis and Vanilla Three.js/2D Canvas are driven through `gsap.ticker` (`lagSmoothing(0)`), with `ScrollTrigger.config({ ignoreMobileResize: true })`, `document.fonts.ready` refresh, Lenis anchor routing, and R3F `useFrame` bridge support.
 4. **Engineering & Accessibility Guardrails**:
    - Compositor-only animations, LCP-safe Hero (no initial `opacity: 0` on `<h1>`), `min-height: 100dvh`, and `overflow-x: clip`
    - `gsap.matchMedia()` with `AbortController` listener cleanup, exact CSS/JS **Breakpoint Parity**, and React `useGSAP()` lifecycle patterns
-   - WCAG 2.2 `focusin` scroll alignment for horizontal sections and accessible split text (`aria-label` + `aria-hidden`)
-   - Runtime reduced-motion toggle, `prefers-reduced-transparency` glass fallback, Three.js lazy-loading, DPR cap, viewport culling, and `dispose()` cleanup
+   - WCAG 2.2 `focusin` scroll alignment for horizontal sections, `ScreenReaderOverlay` DOM twin for 3D/Canvas worlds, and accessible split text (`aria-label` + `aria-hidden`)
+   - Runtime reduced-motion toggle, `prefers-reduced-transparency` glass fallback, adaptive `HIGH/MEDIUM/LOW` hardware tiering, `gl.compileAsync()` shader warmup, Texture Atlas packing, and `dispose()` cleanup
 
 ---
 
@@ -65,8 +93,8 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 | **M04** | Image Mask Transition | CSS `clip-path` (`inset` / `circle`) + GSAP |
 | **M05** | Sticky Storytelling | `ScrollTrigger` `pin: true` + chapter crossfade |
 | **M06** | Horizontal Scroll | `ScrollTrigger` `x` + `invalidateOnRefresh` + `containerAnimation` |
-| **M07** | 3D Camera Movement | Three.js fixed `<canvas>` + ScrollTrigger waypoints |
-| **M08** | Magnetic Cursor | `gsap.quickTo()` (`(pointer: fine)` only) |
+| **M07** | 3D Camera Movement | Three.js / R3F fixed `<canvas>` + ScrollTrigger waypoints |
+| **M08** | Magnetic & Diffused Cursor | `gsap.quickTo()` (`(pointer: fine)` only, scale-only) |
 | **M09** | Particle / GLSL Shader BG | Three.js `ShaderMaterial` / `Points` + viewport culling |
 | **M10** | Morphing / Scene Bridge | SVG path / `clip-path` / CSS theme variable transitions |
 | **M11** | Pseudo-3D Sprite Stacking | 2D Canvas multi-slice + Top/Chase/HUD camera lerp |
@@ -74,10 +102,21 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 
 ---
 
-## References
+## References & Inspiration
 
+### Core Documentation
 - [GSAP ScrollTrigger Docs](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
 - [Lenis Smooth Scroll](https://lenis.darkroom.engineering/)
 - [Three.js Documentation](https://threejs.org/)
 - [MDN CSS Scroll-driven Animations](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Scroll-driven_animations)
 - [Codrops](https://tympanus.net/codrops/)
+
+### Open-Source Skills & Projects Studied
+- [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — Anti-template fingerprint gating & dead-scroll/contrast verification checks
+- [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — Glass overlay hygiene, complete interactive states & restrained design-spell discipline
+- [zlbigger/immersive-poetry-page](https://github.com/zlbigger/immersive-poetry-page) — Beat-based narrative arc & single visual bible consistency
+- [cortiz2894/showcase-images](https://github.com/cortiz2894/showcase-images) — `OffscreenCanvas` Texture Atlas packing & physics-based virtual scroll
+- [Sunil56224972/The-Drawn-Dimenstion](https://github.com/Sunil56224972/The-Drawn-Dimenstion) — `gl.compileAsync()` shader warmup, adaptive hardware performance tiering & `ScreenReaderOverlay`
+- [Itssanthoshhere/Macbook-Landing-Page](https://github.com/Itssanthoshhere/Macbook-Landing-Page) & [udithavithanage/3d-web](https://github.com/udithavithanage/3d-web) — R3F + `@gsap/react` showcase patterns
+- [rudra-xi/memoir-veritas](https://github.com/rudra-xi/memoir-veritas), [Abdul-Ahad888/ScrollWorld](https://github.com/Abdul-Ahad888/ScrollWorld), [zyna-b/React-GSAP-Animated-Studio-website](https://github.com/zyna-b/React-GSAP-Animated-Studio-website), [giksaw/valentines2026](https://github.com/giksaw/valentines2026) — GSAP storytelling, WebP asset pipelines & studio UI transitions
+- UI8 *Fly* (`remix.ui8.ai/fly`) — Inspiration for M11 lightweight (<32KB) 2D Canvas Sprite Stacking & multi-camera HUD UX
