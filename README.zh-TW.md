@@ -118,6 +118,7 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 - [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — 情緒曲線（Feeling Curve）、頁面語法禁止項（Forbids）、Hero 多平面景深與進出段 Scrub 驗證
 - [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — 反 AI 廉價感（Anti-AI-Slop）清單、尊重既有技術棧與互動論點規範
 - [saralobo/rules-design-bible](https://github.com/saralobo/rules-design-bible) — M3 非對稱進出緩動曲線、<100ms 反饋與第 100 次重複耐受度規範
+- [rastian/interaction-design-skills](https://github.com/rastian/interaction-design-skills) — Nielsen 回應時間門檻（`100ms / 1s / 10s`）與互動設計（IxD）反饋原則
 - [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — 毛玻璃動態背景疊加規範、完整互動狀態與節制的設計細節（Design Spells）
 - [zlbigger/immersive-poetry-page](https://github.com/zlbigger/immersive-poetry-page) — 情緒節拍分段（Beat-Based Narrative Arc）與單一視覺聖經一致性
 - [cortiz2894/showcase-images](https://github.com/cortiz2894/showcase-images) — `OffscreenCanvas` 紋理圖集打包與物理慣性虛擬捲動

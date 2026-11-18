@@ -63,8 +63,17 @@ export function transitionState(updateDom) {
 
 ## 4. Loading, Preloader & Error Fallback States
 
-- **Non-Blocking Preloader:** Animate progress via `transform: scaleX()` (never `width`), and never block the above-the-fold Hero `<h1>` LCP behind artificial `setTimeout` delays.
-- **3D / Sequence Status:** Render a visible `[data-stage-status="loading"]` poster/skeleton until assets decode, and switch to `[data-stage-status="fallback"]` (static hero image) on `webglcontextlost` or asset load failure.
+Match loading feedback to **Nielsen's Response-Time Thresholds** so fast loads never flash spinners and slow 3D assets keep users oriented:
+
+| Load Time | Required Feedback |
+|---|---|
+| `0 – 100ms` | Instant state change only (no spinner flash) |
+| `100ms – 1s` | Visible `[data-stage-status="loading"]` poster/skeleton |
+| `1s – 10s` | Real `transform: scaleX()` progress indicator (never `width`) |
+| `> 10s` | Background/async load with immediately usable static fallback |
+
+- **Non-Blocking Preloader:** Never block the above-the-fold Hero `<h1>` LCP behind artificial `setTimeout` delays.
+- **Error Fallback:** Switch to `[data-stage-status="fallback"]` (static hero image) on `webglcontextlost` or asset load failure.
 
 ---
 
