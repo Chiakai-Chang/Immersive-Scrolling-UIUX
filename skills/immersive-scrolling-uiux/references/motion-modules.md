@@ -408,3 +408,44 @@ export function StorySection() {
   return <section ref={scopeRef}>{/* ... */}</section>;
 }
 ```
+
+---
+
+## Glass Overlay, View Transitions & State Completeness
+
+### 1. Frosted / Liquid Glass over Dynamic Backdrops
+
+```css
+.glass-panel {
+  background: rgba(18, 22, 30, 0.62);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel {
+    background: #12161e;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+```
+
+### 2. View Transitions API (Seamless State / Filter Morph)
+
+```js
+function transitionState(updateDom) {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!document.startViewTransition || reduced) {
+    updateDom();
+    return;
+  }
+  document.startViewTransition(updateDom);
+}
+```
+
+### 3. Loading / Error Fallback for 3D & Frame Sequences
+
+Always render a visible `[data-stage-status="loading"]` poster/skeleton until assets decode, and switch to `[data-stage-status="fallback"]` (static hero image) on WebGL context loss or asset load error.
