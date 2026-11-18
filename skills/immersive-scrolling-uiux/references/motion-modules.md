@@ -492,4 +492,43 @@ function transitionState(updateDom) {
 
 ### 3. Loading / Error Fallback for 3D & Frame Sequences
 
-Always render a visible `[data-stage-status="loading"]` poster/skeleton until assets decode, and switch to `[data-stage-status="fallback"]` (static hero image) on WebGL context loss or asset load error.
+Always render a visible `[data-stage-status="loading"]` poster/skeleton until assets decode, and switch to `[data-stage-status="fallback"]` (static hero image) on WebGL context loss or asset load error. If using a progress bar, animate `transform: scaleX()` (never `width`) and never block the Hero `<h1>` LCP behind artificial `setTimeout` delays.
+
+---
+
+## Adaptive Performance Tiering & Velocity Physics
+
+### 1. Hardware Performance Tiering (`HIGH / MEDIUM / LOW`)
+
+```js
+export function detectPerformanceTier() {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const cores = navigator.hardwareConcurrency || 8;
+  const ram = navigator.deviceMemory || 8;
+
+  if (ram <= 4 || (isMobile && cores <= 4)) {
+    return { tier: 'LOW', dpr: 1, shadows: false, antialias: false, particleScale: 0.3 };
+  }
+  if (isMobile || cores <= 4) {
+    return { tier: 'MEDIUM', dpr: 1.5, shadows: false, antialias: true, particleScale: 0.6 };
+  }
+  return { tier: 'HIGH', dpr: 2, shadows: true, antialias: true, particleScale: 1.0 };
+}
+```
+
+### 2. Velocity-Driven Infinite Scroll (for Looping 3D Galleries)
+
+When building an infinite 3D gallery (no document scrollbar), accumulate input impulses with exponential friction and expose `velocity` for subtle skew/tilt reactivity:
+
+```js
+let offset = 0, velocity = 0, pending = 0;
+window.addEventListener('wheel', (e) => { pending += e.deltaY * 0.01; }, { passive: true });
+
+// Inside gsap.ticker.add((_, deltaTime) => ...):
+const dtFactor = Math.min((deltaTime || 16) / 16.67, 2);
+velocity += pending;
+pending = 0;
+velocity *= Math.pow(0.94, dtFactor);
+if (Math.abs(velocity) < 0.0001) velocity = 0;
+offset += velocity;
+```

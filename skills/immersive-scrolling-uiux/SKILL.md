@@ -162,6 +162,7 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
   - **Lazy-load WebGL:** Dynamically `import()` Three.js scenes only when `prefers-reduced-motion: no-preference` so reduced-motion users don't download ~450KB+ of unused 3D code. Wire ScrollTrigger camera tweens inside the `.then()` / `await` resolution (guarded against revert/unmount).
   - **Shader Warmup & Texture Atlas:** Call `gl.compileAsync(scene, camera)` during preloader/idle (bypass on low-tier mobile to prevent `webglcontextlost`), and pack multi-image WebGL galleries into a single `OffscreenCanvas` **Texture Atlas** (`1` draw call instead of `N`).
   - **Canvas Accessibility Twin:** For pure-3D or M11 Canvas experiences, provide a synchronized `.sr-only` semantic `<nav>` + `aria-live="polite"` region so screen readers and keyboard users can navigate every scene.
+  - **Adaptive Performance Tiering (`HIGH / MEDIUM / LOW`):** Gate DPR (`2` / `1.5` / `1`), shadows, antialiasing, and particle density (`100%` / `60%` / `30%`) using `navigator.hardwareConcurrency`, `navigator.deviceMemory`, and a runtime FPS `downgradeTier()` fallback—not just viewport width.
   - Cap pixel ratio: `renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))` (or `1.5` on mobile).
   - **Viewport culling:** Skip both Three.js `renderer.render()` and 2D Canvas `ctx` draw calls when the canvas is off-screen (via `IntersectionObserver` or `ScrollTrigger` `onToggle`).
   - **Cleanup:** Dispose geometries, materials, textures, and renderer on unmount/scene swap.
