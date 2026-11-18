@@ -154,6 +154,7 @@ mm.add({
 ## Engineering & Accessibility Guardrails
 
 - **Compositor-only properties:** Animate `transform`, `opacity`, `clip-path`, and `filter`—never `top`, `left`, `width`, `height`, or `margin`.
+- **ScrollTrigger Official Rules:** Never animate the `pin: true` element itself—pin the wrapper and animate its children. Use `clamp(top bottom)` on above-the-fold scrubbed triggers, `ScrollTrigger.batch()` for card grids instead of N individual triggers, and `refreshPriority` if triggers are registered out of DOM order.
 - **LCP-Safe Hero:** Never set initial `opacity: 0` via JS on the above-the-fold Hero `<h1>` or LCP hero image (delays First/Largest Contentful Paint). Animate subtle `y` transform or CSS-only entrance instead.
 - **Framework / SPA Cleanup:** In React/Next.js, wrap all GSAP/ScrollTrigger code in `useGSAP(() => { ... }, { scope: containerRef })` from `@gsap/react` (or `gsap.context()` + `ctx.revert()` on unmount) to prevent StrictMode duplicate triggers and memory leaks.
 - **Keyboard Accessibility (`focusin`):** For pinned horizontal sections (M06), listen to `focusin` on the track and scroll the window to keep the focused panel visible (WCAG 2.2 2.4.11/2.4.13); never hide focus rings.

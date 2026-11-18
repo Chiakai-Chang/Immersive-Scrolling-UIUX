@@ -112,6 +112,7 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 - [Codrops](https://tympanus.net/codrops/)
 
 ### 研習與借鏡之開源專案
+- [greensock/gsap-skills](https://github.com/greensock/gsap-skills) — GreenSock 官方 AI Skills（Pin 外層與子元素分離、`clamp()`、`ScrollTrigger.batch()`、`refreshPriority` 與效能規範）
 - [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — 情緒曲線（Feeling Curve）、頁面語法禁止項（Forbids）、Hero 多平面景深與進出段 Scrub 驗證
 - [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — 反 AI 廉價感（Anti-AI-Slop）清單、尊重既有技術棧與互動論點規範
 - [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — 毛玻璃動態背景疊加規範、完整互動狀態與節制的設計細節（Design Spells）

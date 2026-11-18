@@ -112,6 +112,7 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 - [Codrops](https://tympanus.net/codrops/)
 
 ### Open-Source Skills & Projects Studied
+- [greensock/gsap-skills](https://github.com/greensock/gsap-skills) — Official GSAP AI skills (pin-wrapper separation, `clamp()`, `ScrollTrigger.batch()`, `refreshPriority` & `gsap.quickTo()`)
 - [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) — Feeling Curve, Page Grammar *forbids*, dimensional hero planes & entry/exit scrub verification
 - [AThevon/genjutsu](https://github.com/AThevon/genjutsu) — Anti-AI-Slop tells catalogue, existing-stack respect & interaction thesis discipline
 - [adgoodma/interactive-web-designer](https://github.com/adgoodma/interactive-web-designer) — Glass overlay hygiene, complete interactive states & restrained design-spell discipline
