@@ -335,9 +335,45 @@ cam.zoom      = damp(cam.zoom,      preset.zoom,      6, dt);
 
 ---
 
+## M12: Image-Sequence / Frame Scrub (`<canvas>`)
+
+Use a `<canvas>` image sequence (rather than scrubbing `<video>.currentTime`, which stutters on reverse scroll due to keyframe decoding) for Apple-style product spins or teardowns:
+
+```js
+const frameCount = 60;
+const images = Array.from({ length: frameCount }, (_, i) => {
+  const img = new Image();
+  img.src = `/frames/frame-${String(i + 1).padStart(3, '0')}.webp`;
+  return img;
+});
+
+const state = { frame: 0 };
+const render = () => {
+  const img = images[Math.round(state.frame)];
+  if (img?.complete && img.naturalWidth > 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }
+};
+
+images[0].onload = render; // Paint poster frame immediately
+
+gsap.to(state, {
+  frame: frameCount - 1,
+  snap: 'frame',
+  ease: 'none',
+  scrollTrigger: { trigger: '.sequence-section', start: 'top top', end: '+=2000', pin: true, scrub: 0.5 },
+  onUpdate: render,
+});
+```
+
+- **Reduced Motion / Slow Network:** Render `images[0]` (poster frame) statically and skip `ScrollTrigger` pinning.
+
+---
+
 ## Web Motion Playground Pattern
 
-When building a reusable playground for M01–M11:
+When building a reusable playground for M01–M12:
 1. Store each module as a self-contained descriptor: `{ id, title, category, paramsSchema, setup(container, params), codeSnippet }`.
 2. Render a live preview stage + parameter sliders (`scrub`, `duration`, `ease`, `intensity`) that re-run `ctx.revert()` (`gsap.context()`) and re-initialize `setup()` cleanly on change.
 3. Include a **Reduced Motion Toggle** and **ScrollTrigger Markers Toggle** directly in the playground toolbar for instant verification.

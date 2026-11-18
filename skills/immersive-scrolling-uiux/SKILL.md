@@ -15,7 +15,7 @@ Cinematic web experiences are not isolated animations—they are **choreographed
 
 - Building scrollytelling landing pages, product launches, agency/studio portfolios, or editorial narratives.
 - Combining **GSAP ScrollTrigger**, **Lenis**, **Three.js / WebGL**, or **CSS Scroll-driven Animations** (`animation-timeline`).
-- Creating a **Web Motion Playground** or reusable motion module library (M01–M11).
+- Creating a **Web Motion Playground** or reusable motion module library (M01–M12).
 
 **When NOT to use:** Standard SaaS dashboards, data tables, or CRUD forms where scroll-jacking or pinned sections hurt task efficiency. Pair with `frontend-design` or `design-taste-frontend` for static visual direction, and `motion-choreography` for standard UI state transitions.
 
@@ -36,7 +36,7 @@ Choose the lightest tool that satisfies the choreography:
 
 Do **not** generate an entire multi-section site in one shot. Follow this 5-step loop:
 
-1. **Design Brief:** Lock theme, emotional tone, typography, palette, and 1–2 memorable visual moments.
+1. **Design Brief (Anti-Template Gate):** Lock theme, emotional tone, typography, palette, a distinct **Page Grammar** (avoid generic alternating left-right blocks), and **1 bespoke signature mechanic** tailored to the domain.
 2. **Motion Specification:** For each section, write a compact spec (see template below) BEFORE coding.
 3. **Section-by-Section Implementation:** Build HTML + CSS layout first, then wire motion for **one section at a time**.
 4. **Browser Validation:** Inspect `ScrollTrigger` markers, 60fps compositor performance, mobile touch behavior, and `prefers-reduced-motion` after each section.
@@ -130,7 +130,7 @@ mm.add({
 });
 ```
 
-## The 11 Effect Modules (M01–M11)
+## The 12 Effect Modules (M01–M12)
 
 See [references/motion-modules.md](references/motion-modules.md) for production code recipes and tunable parameters for each module:
 
@@ -147,6 +147,7 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 | **M09** | Particle / Shader BG | Three.js + GLSL | Uniform `uProgress` / `uMouse` + viewport culling |
 | **M10** | Morphing Transition | SVG / `clip-path` / WebGL | Seamless scene-to-scene visual bridge |
 | **M11** | Pseudo-3D Sprite Stacking | 2D Canvas + Camera Lerp | Multi-slice volumetric objects + seamless Top/Chase/HUD views |
+| **M12** | Frame-Sequence Scrub | 2D Canvas + ScrollTrigger | Apple-style image sequence spin with poster fallback |
 
 ## Engineering & Accessibility Guardrails
 
@@ -170,6 +171,7 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 
 Before declaring any section complete:
 - [ ] `ScrollTrigger` `markers: true` checked in dev: `start`/`end` align cleanly; no overlapping pin-spacers.
+- [ ] **No Dead Scroll / Ghost Copy:** Every pinned scroll span produces visible progression, and revealed text reaches `opacity: 1` with readable contrast (`>= 4.5:1`) over dynamic backgrounds.
 - [ ] `document.fonts.ready` and `resize` keep pin positions accurate.
 - [ ] DevTools Performance trace shows 60fps scrolling with no layout thrashing.
 - [ ] Mobile viewport (`< 768px`) has zero horizontal overflow and usable touch scrolling.
