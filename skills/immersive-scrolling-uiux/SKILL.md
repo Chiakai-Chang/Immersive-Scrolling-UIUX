@@ -15,7 +15,7 @@ Cinematic web experiences are not isolated animations—they are **choreographed
 
 - Building scrollytelling landing pages, product launches, agency/studio portfolios, or editorial narratives.
 - Combining **GSAP ScrollTrigger**, **Lenis**, **Three.js / WebGL**, or **CSS Scroll-driven Animations** (`animation-timeline`).
-- Creating a **Web Motion Playground** or reusable motion module library (M01–M10).
+- Creating a **Web Motion Playground** or reusable motion module library (M01–M11).
 
 **When NOT to use:** Standard SaaS dashboards, data tables, or CRUD forms where scroll-jacking or pinned sections hurt task efficiency. Pair with `frontend-design` or `design-taste-frontend` for static visual direction, and `motion-choreography` for standard UI state transitions.
 
@@ -72,6 +72,7 @@ import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true }); // Prevents iOS URL-bar jumps
+// NEVER enable ScrollTrigger.normalizeScroll(true) alongside Lenis — they fight over wheel/touch events.
 
 const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
 lenis.on('scroll', ScrollTrigger.update);
@@ -145,6 +146,9 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 ## Engineering & Accessibility Guardrails
 
 - **Compositor-only properties:** Animate `transform`, `opacity`, `clip-path`, and `filter`—never `top`, `left`, `width`, `height`, or `margin`.
+- **LCP-Safe Hero:** Never set initial `opacity: 0` via JS on the above-the-fold Hero `<h1>` or LCP hero image (delays First/Largest Contentful Paint). Animate subtle `y` transform or CSS-only entrance instead.
+- **Framework / SPA Cleanup:** In React/Next.js, wrap all GSAP/ScrollTrigger code in `useGSAP(() => { ... }, { scope: containerRef })` from `@gsap/react` (or `gsap.context()` + `ctx.revert()` on unmount) to prevent StrictMode duplicate triggers and memory leaks.
+- **Keyboard Accessibility (`focusin`):** For pinned horizontal sections (M06), listen to `focusin` on the track and scroll the window to keep the focused panel visible (WCAG 2.2 2.4.11/2.4.13); never hide focus rings.
 - **Viewport units:** Use `min-height: 100dvh` (or `svh`) instead of `100vh` to prevent mobile browser bar layout shifts.
 - **Horizontal overflow:** Use `overflow-x: clip` (not `overflow-x: hidden`, which breaks `position: sticky`).
 - **CSS Scroll-driven Gotcha:** Always declare `animation-timeline: view()` *after* the `animation` shorthand, and guard with `@supports (animation-timeline: scroll())`.
@@ -164,4 +168,5 @@ Before declaring any section complete:
 - [ ] `document.fonts.ready` and `resize` keep pin positions accurate.
 - [ ] DevTools Performance trace shows 60fps scrolling with no layout thrashing.
 - [ ] Mobile viewport (`< 768px`) has zero horizontal overflow and usable touch scrolling.
+- [ ] Keyboard `Tab` navigation through pinned/horizontal sections keeps every focused element visible in viewport.
 - [ ] `prefers-reduced-motion: reduce` emulated in DevTools shows all content immediately readable with no jarring motion.

@@ -6,14 +6,13 @@ Production-ready patterns for the 10 core modules. Always wrap ScrollTrigger set
 
 ## M01: Cinematic Hero
 
-Combines an immediate entrance timeline with a scrubbed background scale/parallax on scroll.
+Combines an immediate, **LCP-safe** entrance (animate `yPercent` inside `overflow: hidden` without setting initial `opacity: 0` on the LCP `<h1>`) with a scrubbed background scale/parallax on scroll.
 
 ```js
-// Entrance
+// LCP-safe Entrance (parent .line-wrap has overflow: hidden)
 gsap.from('.hero-line', {
-  yPercent: 110,
-  opacity: 0,
-  duration: 0.9,
+  yPercent: 105,
+  duration: 0.85,
   stagger: 0.08,
   ease: 'power3.out',
 });
@@ -189,6 +188,15 @@ gsap.utils.toArray('.h-card').forEach((card) => {
     },
   });
 });
+
+// WCAG 2.2 Keyboard Accessibility: scroll focused card into view on Tab
+track.addEventListener('focusin', (e) => {
+  const card = e.target.closest('.h-card');
+  const st = horizontalTween.scrollTrigger;
+  if (!card || !st) return;
+  const progress = card.offsetLeft / Math.max(1, track.scrollWidth - window.innerWidth);
+  window.scrollTo({ top: st.start + progress * (st.end - st.start), behavior: 'auto' });
+});
 ```
 
 ---
@@ -320,6 +328,7 @@ cam.zoom      = damp(cam.zoom,      preset.zoom,      6, dt);
 
 ### 3. Diegetic HUD & Performance Guardrails
 
+- **HiDPI Crispness:** Size the canvas backing store by `dpr = Math.min(window.devicePixelRatio, 2)` and call `ctx.setTransform(dpr, 0, 0, dpr, 0, 0)` on resize so pixel/vector HUD lines stay razor-sharp on Retina screens.
 - **Diegetic Telemetry:** Map scroll progress or pointer velocity to crisp vector HUD elements (compass heading, depth/altitude scale, lock-on reticle) instead of generic floating cards.
 - **Offscreen Pre-baking:** Draw static pixel/vector slices onto `OffscreenCanvas` (or hidden `<canvas>`) once at startup; never allocate gradients or paths inside the per-frame loop.
 - **Reduced Motion:** Snap immediately to the target camera preset (`lambda = Infinity`) and render a clean static frame when `prefers-reduced-motion: reduce` is active.
@@ -328,7 +337,38 @@ cam.zoom      = damp(cam.zoom,      preset.zoom,      6, dt);
 
 ## Web Motion Playground Pattern
 
-When building a reusable playground for M01–M10:
+When building a reusable playground for M01–M11:
 1. Store each module as a self-contained descriptor: `{ id, title, category, paramsSchema, setup(container, params), codeSnippet }`.
 2. Render a live preview stage + parameter sliders (`scrub`, `duration`, `ease`, `intensity`) that re-run `ctx.revert()` (`gsap.context()`) and re-initialize `setup()` cleanly on change.
 3. Include a **Reduced Motion Toggle** and **ScrollTrigger Markers Toggle** directly in the playground toolbar for instant verification.
+
+---
+
+## React / Next.js (`useGSAP`) Lifecycle Pattern
+
+In React 18/19 StrictMode or SPA route transitions, always use `@gsap/react`'s `useGSAP()` (or `gsap.context()`) so ScrollTriggers revert cleanly on unmount:
+
+```tsx
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function StorySection() {
+  const scopeRef = useRef(null);
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+      gsap.to('.panel', {
+        yPercent: -15,
+        scrollTrigger: { trigger: '.panel', scrub: true },
+      });
+    });
+  }, { scope: scopeRef });
+
+  return <section ref={scopeRef}>{/* ... */}</section>;
+}
+```
