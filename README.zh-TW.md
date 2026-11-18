@@ -119,4 +119,5 @@ Copy-Item -Recurse -Force .\skills\immersive-scrolling-uiux "$env:USERPROFILE\.a
 - [Sunil56224972/The-Drawn-Dimenstion](https://github.com/Sunil56224972/The-Drawn-Dimenstion) — `gl.compileAsync()` 著色器預熱、硬體效能分級與 `ScreenReaderOverlay` 雙生無障礙層
 - [Itssanthoshhere/Macbook-Landing-Page](https://github.com/Itssanthoshhere/Macbook-Landing-Page) 與 [udithavithanage/3d-web](https://github.com/udithavithanage/3d-web) — R3F + `@gsap/react` 實戰架構
 - [rudra-xi/memoir-veritas](https://github.com/rudra-xi/memoir-veritas)、[Abdul-Ahad888/ScrollWorld](https://github.com/Abdul-Ahad888/ScrollWorld)、[zyna-b/React-GSAP-Animated-Studio-website](https://github.com/zyna-b/React-GSAP-Animated-Studio-website)、[giksaw/valentines2026](https://github.com/giksaw/valentines2026) — GSAP 視覺敘事、WebP 素材管線與工作室轉場互動
+- [latentcat/latentbox](https://github.com/latentcat/latentbox) — Web3D 與創意程式設計精選合集（`awesome-web3d`），適合作為前期視覺研究靈感庫
 - UI8 *Fly*（`remix.ui8.ai/fly`）— M11 超輕量（<32KB）2D Canvas 精靈堆疊與多視角 HUD 靈感來源

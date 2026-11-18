@@ -119,4 +119,5 @@ See [`skills/immersive-scrolling-uiux/references/motion-modules.md`](skills/imme
 - [Sunil56224972/The-Drawn-Dimenstion](https://github.com/Sunil56224972/The-Drawn-Dimenstion) — `gl.compileAsync()` shader warmup, adaptive hardware performance tiering & `ScreenReaderOverlay`
 - [Itssanthoshhere/Macbook-Landing-Page](https://github.com/Itssanthoshhere/Macbook-Landing-Page) & [udithavithanage/3d-web](https://github.com/udithavithanage/3d-web) — R3F + `@gsap/react` showcase patterns
 - [rudra-xi/memoir-veritas](https://github.com/rudra-xi/memoir-veritas), [Abdul-Ahad888/ScrollWorld](https://github.com/Abdul-Ahad888/ScrollWorld), [zyna-b/React-GSAP-Animated-Studio-website](https://github.com/zyna-b/React-GSAP-Animated-Studio-website), [giksaw/valentines2026](https://github.com/giksaw/valentines2026) — GSAP storytelling, WebP asset pipelines & studio UI transitions
+- [latentcat/latentbox](https://github.com/latentcat/latentbox) — Curated Web3D & creative-coding showcase directory (`awesome-web3d`) for visual research
 - UI8 *Fly* (`remix.ui8.ai/fly`) — Inspiration for M11 lightweight (<32KB) 2D Canvas Sprite Stacking & multi-camera HUD UX
