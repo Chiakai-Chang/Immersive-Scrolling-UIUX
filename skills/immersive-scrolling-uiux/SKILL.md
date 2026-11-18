@@ -83,6 +83,17 @@ gsap.ticker.lagSmoothing(0);
 // Refresh triggers after web fonts & images settle
 document.fonts.ready.then(() => ScrollTrigger.refresh());
 window.addEventListener('load', () => ScrollTrigger.refresh());
+
+// Route anchor links through Lenis so smooth scroll doesn't fight native jumps
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target && lenis) {
+      e.preventDefault();
+      lenis.scrollTo(target);
+    }
+  });
+});
 ```
 
 ### Responsive & Reduced-Motion Gate (`gsap.matchMedia`)
@@ -136,9 +147,12 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 - **Horizontal overflow:** Use `overflow-x: clip` (not `overflow-x: hidden`, which breaks `position: sticky`).
 - **CSS Scroll-driven Gotcha:** Always declare `animation-timeline: view()` *after* the `animation` shorthand, and guard with `@supports (animation-timeline: scroll())`.
 - **Three.js Hygiene:**
+  - **Lazy-load WebGL:** Dynamically `import()` Three.js scenes only when `prefers-reduced-motion: no-preference` so reduced-motion users don't download ~450KB+ of unused 3D code.
   - Cap pixel ratio: `renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))` (or `1.5` on mobile).
   - **Viewport culling:** Skip `renderer.render(scene, camera)` when the canvas is off-screen (via `IntersectionObserver` or `ScrollTrigger` `onToggle`).
   - **Cleanup:** Dispose geometries, materials, textures, and renderer on unmount/scene swap.
+- **Breakpoint Parity:** Keep CSS `@media` breakpoints and `gsap.matchMedia()` conditions aligned to the exact pixel (e.g., CSS `max-width: 900px` ↔ JS `min-width: 901px`) so horizontal tracks never misalign.
+- **Runtime Reduced-Motion Toggle:** Support an in-page reduced-motion toggle alongside OS `prefers-reduced-motion: reduce`; on activation, call `lenis.destroy()`, `mm.revert()`, and `gsap.set(targets, { clearProps: 'all' })`.
 - **Accessible Split Text:** Never split text into `<span>`s without `aria-label` on the parent and `aria-hidden="true"` on the child spans, or screen readers will spell out individual characters.
 
 ## Browser Verification Checklist
