@@ -42,6 +42,13 @@ Cap stacked `backdrop-filter` blur layers at 3, verify `>= 4.5:1` contrast again
     -webkit-backdrop-filter: none;
   }
 }
+
+@media (prefers-contrast: more) {
+  .glass-panel {
+    background: #0d1117;
+    border-color: rgba(255, 255, 255, 0.72);
+  }
+}
 ```
 
 ---
@@ -83,12 +90,14 @@ Unless explicitly justified by the user's real product data, **never** pad immer
 - **Fake telemetry / heritage:** No invented `v0.6.2-rc.1`, `last sync 4s ago`, `LIS 14:23 · 18°C`, `ESTD. 2018`, `SEC-01`, `99.99% uptime`, or `Only 3 left` counters.
 - **Decorative numbering:** Avoid `00 / INDEX` or `01 / 04` counters on static grids where items don't actually paginate.
 - **Fake product boxes:** Don't draw a generic mock terminal/dashboard out of styled `<div>`s when real screenshots, components, or copy exist.
+- **Monospace as costume:** Reserve monospace for code, figures, timestamps, and measurements—never slap monospace onto every heading or nav link just to look "technical."
 
 ---
 
 ## 6. Micro-Interaction & Easing Discipline
 
 - **The 100th-Repetition Test:** Every transition or hover effect must remain tolerable on the 100th visit—never block the user's next click or scroll.
+- **Interruptible & Origin-Consistent:** Never lock input while animating (`overwrite: 'auto'`); panels leave the same way they arrived (in from right -> out to right).
 - **< 100ms Feedback & Stable Hit-Box:** Visual feedback on click/hover must start within `< 100ms` and never shrink or shift the element's clickable hit-area. Keep the hovered element stationary and animate a child surface (`.card:hover .card-surface { transform: translateY(-2px) }`) to prevent edge-hover flicker; apply `transition-delay` only on `:hover` so pointer exit is instant.
 - **Touch & Keyboard Hover Parity:** Wrap `:hover` rules in `@media (hover: hover)` so touch screens never get stuck hover states, and mirror every hover treatment on `:focus-visible` (plus a visible color/underline fallback under `prefers-reduced-motion`). Pick **one** micro-interaction treatment per UI role—shipping magnetic + letter-roll + pointer-fill + custom cursor all at once is visual clutter.
 - **Asymmetric Enter / Exit Curves:** Entering elements decelerate (`power3.out` / `cubic-bezier(0.05, 0.7, 0.1, 1)`), while exiting elements accelerate (`power2.in` / `cubic-bezier(0.3, 0, 0.8, 0.15)`) and exit faster than they enter.
