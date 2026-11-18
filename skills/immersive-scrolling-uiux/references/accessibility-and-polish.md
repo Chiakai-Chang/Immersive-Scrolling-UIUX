@@ -74,3 +74,11 @@ Unless explicitly justified by the user's real product data, **never** pad immer
 - **Fake telemetry / heritage:** No invented `v0.6.2-rc.1`, `last sync 4s ago`, `LIS 14:23 · 18°C`, `ESTD. 2018`, `SEC-01`, `99.99% uptime`, or `Only 3 left` counters.
 - **Decorative numbering:** Avoid `00 / INDEX` or `01 / 04` counters on static grids where items don't actually paginate.
 - **Fake product boxes:** Don't draw a generic mock terminal/dashboard out of styled `<div>`s when real screenshots, components, or copy exist.
+
+---
+
+## 6. Micro-Interaction & Easing Discipline
+
+- **The 100th-Repetition Test:** Every transition or hover effect must remain tolerable on the 100th visit—never block the user's next click or scroll.
+- **< 100ms Feedback & Stable Hit-Box:** Visual feedback on click/hover must start within `< 100ms` and never shrink or shift the element's clickable hit-area.
+- **Asymmetric Enter / Exit Curves:** Entering elements decelerate (`power3.out` / `cubic-bezier(0.05, 0.7, 0.1, 1)`), while exiting elements accelerate (`power2.in` / `cubic-bezier(0.3, 0, 0.8, 0.15)`) and exit faster than they enter.
