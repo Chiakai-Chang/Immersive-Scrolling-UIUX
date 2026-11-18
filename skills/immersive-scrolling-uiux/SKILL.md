@@ -36,7 +36,7 @@ Choose the lightest tool that satisfies the choreography:
 
 Do **not** generate an entire multi-section site in one shot. Follow this 5-step loop:
 
-1. **Design Brief (Anti-Template Gate):** Lock theme, emotional tone, typography, palette, a distinct **Page Grammar** (avoid generic alternating left-right blocks), and **1 bespoke signature mechanic** tailored to the domain. Use real copy or explicit `[Placeholder]` markers—never invent fake stats or lorem ipsum.
+1. **Design Brief (Anti-Template Gate):** Lock theme, emotional tone, typography, palette, a distinct **Page Grammar** (avoid generic alternating left-right blocks), **1 bespoke signature mechanic**, and a **Beat-Based Narrative Arc** (segment sections by emotional/narrative turns, not equal heights, with one consistent Visual Bible). Use real copy or explicit `[Placeholder]` markers—never invent fake stats or lorem ipsum.
 2. **Motion Specification:** For each section, write a compact spec (see template below) BEFORE coding.
 3. **Section-by-Section Implementation:** Build HTML + CSS layout first, then wire motion for **one section at a time**.
 4. **Browser Validation:** Inspect `ScrollTrigger` markers, 60fps compositor performance, mobile touch behavior, and `prefers-reduced-motion` after each section.
@@ -160,6 +160,8 @@ See [references/motion-modules.md](references/motion-modules.md) for production 
 - **CSS Scroll-driven Gotcha:** Always declare `animation-timeline: view()` *after* the `animation` shorthand, and guard with `@supports (animation-timeline: scroll())`.
 - **Three.js & Canvas Hygiene:**
   - **Lazy-load WebGL:** Dynamically `import()` Three.js scenes only when `prefers-reduced-motion: no-preference` so reduced-motion users don't download ~450KB+ of unused 3D code. Wire ScrollTrigger camera tweens inside the `.then()` / `await` resolution (guarded against revert/unmount).
+  - **Shader Warmup & Texture Atlas:** Call `gl.compileAsync(scene, camera)` during preloader/idle (bypass on low-tier mobile to prevent `webglcontextlost`), and pack multi-image WebGL galleries into a single `OffscreenCanvas` **Texture Atlas** (`1` draw call instead of `N`).
+  - **Canvas Accessibility Twin:** For pure-3D or M11 Canvas experiences, provide a synchronized `.sr-only` semantic `<nav>` + `aria-live="polite"` region so screen readers and keyboard users can navigate every scene.
   - Cap pixel ratio: `renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))` (or `1.5` on mobile).
   - **Viewport culling:** Skip both Three.js `renderer.render()` and 2D Canvas `ctx` draw calls when the canvas is off-screen (via `IntersectionObserver` or `ScrollTrigger` `onToggle`).
   - **Cleanup:** Dispose geometries, materials, textures, and renderer on unmount/scene swap.

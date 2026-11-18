@@ -241,6 +241,10 @@ camTl
 
 Always provide a `disposeScene()` helper calling `geometry.dispose()`, `material.dispose()`, and `renderer.dispose()`.
 
+- **Zero-Stutter Shader Warmup:** Run `await renderer.compileAsync?.(scene, camera)` during preloader/idle (skip on low-tier mobile to avoid `webglcontextlost`).
+- **Texture Atlas (30 Images -> 1 Draw Call):** Draw gallery images onto one `OffscreenCanvas` grid (`cols × rows`, `2px` padding) and upload a single `new THREE.CanvasTexture(canvas)` instead of binding dozens of textures.
+- **Screen-Reader Twin:** Pair full-screen 3D/Canvas worlds with a `.sr-only` `<nav>` + `<div aria-live="polite">` announcing chapter/room transitions.
+
 ---
 
 ## M08: Magnetic Cursor (`gsap.quickTo`)
@@ -268,6 +272,8 @@ if (window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preferenc
   });
 }
 ```
+
+**Diffused `mix-blend-difference` Follower:** Use `gsap.quickTo` for `x`/`y` and animate `scale` (never `width`/`height`, which triggers Layout every frame) on hover (`[data-cursor-hover]`).
 
 ---
 
