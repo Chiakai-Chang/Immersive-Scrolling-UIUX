@@ -116,4 +116,9 @@ Unless explicitly justified by the user's real product data, **never** pad immer
 }
 .roll:focus-visible > span { translate: 0 -105%; }
 .roll:focus-visible > span + span { translate: 0 0; }
+@media (prefers-reduced-motion: reduce) {
+  .roll > span { transition: none; }
+  .roll:hover > span, .roll:focus-visible > span { translate: 0 0; text-decoration: underline; }
+  .roll:hover > span + span, .roll:focus-visible > span + span { translate: 0 105%; }
+}
 ```
