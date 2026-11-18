@@ -36,7 +36,7 @@ Choose the lightest tool that satisfies the choreography:
 
 Do **not** generate an entire multi-section site in one shot. Follow this 5-step loop:
 
-1. **Design Brief (Anti-Template Gate):** Lock theme, emotional tone, typography, palette, a distinct **Page Grammar** (avoid generic alternating left-right blocks), **1 bespoke signature mechanic**, and a **Beat-Based Narrative Arc** (segment sections by emotional/narrative turns, not equal heights, with one consistent Visual Bible). Use real copy or explicit `[Placeholder]` markers—never invent fake stats or lorem ipsum.
+1. **Design Brief (Anti-Template Gate):** Lock theme, palette, typography, a **Feeling Curve** (one emotion per section—**never repeat the same emotion or motion device twice in a row**), a **Page Grammar** with explicit *forbids* (so the layout doesn't drift back to a generic template), **1 bespoke signature mechanic**, and **dimensional hero planes** (independent foreground/subject/background separation). Use real copy or explicit `[Placeholder]` markers—never invent fake stats or lorem ipsum.
 2. **Motion Specification:** For each section, write a compact spec (see template below) BEFORE coding.
 3. **Section-by-Section Implementation:** Build HTML + CSS layout first, then wire motion for **one section at a time**.
 4. **Browser Validation:** Inspect `ScrollTrigger` markers, 60fps compositor performance, mobile touch behavior, and `prefers-reduced-motion` after each section.
@@ -179,7 +179,7 @@ mm.add({
 
 Before declaring any section complete:
 - [ ] `ScrollTrigger` `markers: true` checked in dev: `start`/`end` align cleanly; no overlapping pin-spacers.
-- [ ] **No Dead Scroll / Ghost Copy:** Every pinned scroll span produces visible progression, and revealed text reaches `opacity: 1` with readable contrast (`>= 4.5:1`) over dynamic backgrounds.
+- [ ] **No Dead Scroll / Frozen Scrub / Ghost Copy:** Sample scrubbed sections on **entry, mid-pin, and exit** (never only mid-pin); verify fixed/canvas stages update a `data-verify-state` signature rather than sitting frozen, and revealed text reaches `opacity: 1` with `>= 4.5:1` contrast over dynamic backgrounds.
 - [ ] `document.fonts.ready` and `resize` keep pin positions accurate.
 - [ ] DevTools Performance trace shows 60fps scrolling with no layout thrashing.
 - [ ] Mobile viewport (`< 768px`) has zero horizontal overflow and usable touch scrolling.
